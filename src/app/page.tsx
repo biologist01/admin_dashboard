@@ -1,9 +1,49 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
-import React from "react";
 
 const AdminDashboard = () => {
+  const [email, setEmail] = useState("");
+  const [authorized, setAuthorized] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Check if the entered email matches the allowed email
+    if (email.trim().toLowerCase() === "shaikhurwa61@gmail.com") {
+      setAuthorized(true);
+      setError("");
+    } else {
+      setError("Unauthorized email. Please enter the correct Gmail address.");
+    }
+  };
+
+  if (!authorized) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-500 to-indigo-600 flex flex-col items-center justify-center p-4">
+        <h1 className="text-3xl font-bold text-white mb-6">Admin Login</h1>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center">
+          <input
+            type="email"
+            placeholder="Enter your Gmail address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-3 rounded-lg mb-4 w-80"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-white text-blue-700 font-bold py-2 px-4 rounded"
+          >
+            Submit
+          </button>
+          {error && <p className="mt-4 text-red-300">{error}</p>}
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-indigo-600 flex flex-col items-center justify-center p-4">
       <header className="mb-12 text-center">
